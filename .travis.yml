@@ -11,14 +11,14 @@ script:
   - docker run -e CI=true igorgroz/react-test npm test
 
 after_success:
-  - docker build -t igorgroz/multi-client ./client
-  - docker build -t igorgroz/multi-nginx ./nginx
-  - docker build -t igorgroz/multi-server ./server
-  - docker build -t igorgroz/multi-worker ./worker
+  - docker build -t dockerozns/multi-client ./client
+  - docker build -t dockerozns/multi-nginx ./nginx
+  - docker build -t dockerozns/multi-server ./server
+  - docker build -t dockerozns/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push igorgroz/multi-client
-  - docker push igorgroz/multi-nginx
-  - docker push igorgroz/multi-server
-  - docker push igorgroz/multi-worker
+  - docker push dockerozns/multi-client
+  - docker push dockerozns/multi-nginx
+  - docker push dockerozns/multi-server
+  - docker push dockerozns/multi-worker
