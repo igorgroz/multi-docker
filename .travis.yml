@@ -5,10 +5,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t igorgroz/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t dockerozns/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true igorgroz/react-test npm test
+  - docker run -e CI=true dockerozns/react-test npm test
 
 after_success:
   - docker build -t dockerozns/multi-client ./client
@@ -22,3 +22,15 @@ after_success:
   - docker push dockerozns/multi-nginx
   - docker push dockerozns/multi-server
   - docker push dockerozns/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'ap-southeast-2'
+  app: 'multi-docker'
+  env: 'MultiDocker-env'
+  bucket_name: 'elasticbeanstalk-ap-southeast-2-856068283366'   
+  bucket_path: 'docker-multi'
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
